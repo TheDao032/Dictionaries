@@ -47,8 +47,7 @@ public class Slang {
         
     }
     
-    public void add(String key, String value) throws IOException {
-        this.slang.put(key, value);
+    public void addSlang(String key, String value) throws IOException {
         String path = "slang.txt";
         BufferedWriter writer = new BufferedWriter(new FileWriter(path));
         String item = key + '`' + value;
@@ -56,7 +55,7 @@ public class Slang {
             Scanner scan = new Scanner(System.in);
             System.out.println("There Aready Has This Key Word, Do You Want To Override It Or Create A New One: O OR C 'O: Override', 'C: Create A New One'");
             String Choice = scan.nextLine();
-            if ("C".equals(Choice)) {
+            if ("C".equals(Choice) || "c".equals(Choice)) {
                 byte[] array = new byte[7]; // length is bounded by 7
                 new Random().nextBytes(array);
                 String generatedString = new String(array, Charset.forName("UTF-8"));
@@ -64,6 +63,7 @@ public class Slang {
                 Slang.this.slang.put(result, value);
                 try {
                     writer.write(item);
+                    writer.close();
                 } catch (IOException ex) {
                     Logger.getLogger(Slang.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -78,6 +78,13 @@ public class Slang {
                 });
             }
         });
+        this.slang.put(key, value);
+        try {
+            writer.write(item);
+            writer.close();
+        } catch (IOException ex) {
+            Logger.getLogger(Slang.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
     }
     
