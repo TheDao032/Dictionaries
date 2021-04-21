@@ -6,6 +6,7 @@
 package dictionary;
 
 import java.io.IOException;
+import slang_dictionary.Slang;
 
 /**
  *
@@ -13,5 +14,8 @@ import java.io.IOException;
  */
 public class Main {
     public static void main(String[] args) throws IOException {
+        Slang newSlang = new Slang();
+        String key = "Slag";
+        newSlang.searchWithSlang(key);
     }
 }
