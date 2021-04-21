@@ -50,7 +50,6 @@ public class Slang {
     public void addSlang(String key, String value) throws IOException {
         String path = "slang.txt";
         BufferedWriter writer = new BufferedWriter(new FileWriter(path));
-        String item = key + '`' + value;
         this.slang.keySet().stream().filter(i -> (i.equals(key))).forEachOrdered((String i) -> {
             Scanner scan = new Scanner(System.in);
             System.out.println("There Aready Has This Key Word, Do You Want To Override It Or Create A New One: O OR C 'O: Override', 'C: Create A New One'");
@@ -62,35 +61,48 @@ public class Slang {
                 String result = key + generatedString;
                 Slang.this.slang.put(result, value);
                 try {
-                    writer.write(item);
+                    Slang.this.slang.entrySet().stream().map(m -> m.getKey() + '`' + m.getValue() + '\n').forEachOrdered(itemResult -> {
+                        try {
+                            writer.write(itemResult);
+                        } catch (IOException ex) {
+                            Logger.getLogger(Slang.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    });
                     writer.close();
                 } catch (IOException ex) {
                     Logger.getLogger(Slang.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } else {
                 Slang.this.slang.put(key, value);
-                Slang.this.slang.entrySet().stream().map(m -> m.getKey() + '`' + m.getValue()).forEachOrdered(itemResult -> {
+                Slang.this.slang.entrySet().stream().map(m -> m.getKey() + '`' + m.getValue() + '\n').forEachOrdered(itemResult -> {
                     try {
                         writer.write(itemResult);
                     } catch (IOException ex) {
                         Logger.getLogger(Slang.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 });
+                try {
+                    writer.close();
+                } catch (IOException ex) {
+                    Logger.getLogger(Slang.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
+            return;
         });
         this.slang.put(key, value);
-        try {
-            writer.write(item);
-            writer.close();
-        } catch (IOException ex) {
-            Logger.getLogger(Slang.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
+        Slang.this.slang.entrySet().stream().map(m -> m.getKey() + '`' + m.getValue() + '\n').forEachOrdered(itemResult -> {
+            try {
+                writer.write(itemResult);
+            } catch (IOException ex) {
+                Logger.getLogger(Slang.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+        writer.close();
     }
     
     public void searchWithSlang(String key) {
         this.slang.keySet().stream().filter(i -> (i.contains(key))).map(i -> {
-            System.out.println("key:" + i + "value:" + this.slang.get(i));
+            System.out.println("key:" + i + ", value:" + this.slang.get(i));
             return i;
         }).forEachOrdered(i -> {
             this.slang_history.add(i);
@@ -98,11 +110,11 @@ public class Slang {
     }
     
     public void searchWithDefinition(String value) {
+        System.out.println("value:" + value);
         this.slang.entrySet().stream().filter(entry -> (entry.getValue().contains(value))).map(entry -> {
-            System.out.println("value:" + value);
             return entry;
         }).forEachOrdered(entry -> {
-            System.out.println(entry.getKey());
+            System.out.println("key:" + entry.getKey());
         });
     }
     
@@ -155,7 +167,7 @@ public class Slang {
         Random generator = new Random();
         Object[] keys = this.slang.keySet().toArray();
         Object randomKey = keys[generator.nextInt(keys.length)];
-        System.out.println("key: " + randomKey + "value: " + this.slang.get(randomKey.toString()));
+        System.out.println("key: " + randomKey + ", value: " + this.slang.get(randomKey.toString()));
     }
     
     public void miniGameSlang() {
