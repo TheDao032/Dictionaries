@@ -171,11 +171,12 @@ public class Slang {
     }
     
     public void miniGameSlang() {
-        HashMap<Integer, String> QA = new HashMap<>();
+        
         Random generator = new Random();
         int[] answer = {1, 2, 3, 4};
         Object[] keys = this.slang.keySet().toArray();
         do {
+            HashMap<Integer, String> QA = new HashMap<>();
             for (int i = 1; i <= 4; i++) {
                 int randomAnswer;
                 Object randomKeys;
@@ -226,14 +227,21 @@ public class Slang {
         } while (true);
     }
     public void miniGameDefinition() {
-        HashMap<Integer, String> QA = new HashMap<>();
+        
         Random generator = new Random();
         int[] answer = {1, 2, 3, 4};
-        Object[] values = this.slang.values().toArray();
+        Object[] keys = this.slang.keySet().toArray();
+       
         do {
-            for (int i = 1; i <= 4; i++) {
+            HashMap<Integer, String> QA = new HashMap<>();
+            String resultKey = keys[generator.nextInt(keys.length)].toString();
+            int firstAnswer = answer[generator.nextInt(answer.length)];
+            String firstValues = this.slang.get(resultKey);
+            QA.put(firstAnswer, firstValues);
+            for (int i = 1; i <= 3; i++) {
                 int randomAnswer;
                 Object randomValues;
+                String answerKey;
                 do {
                     randomAnswer = answer[generator.nextInt(answer.length)];
                     if (QA.containsKey(randomAnswer)) {
@@ -242,7 +250,7 @@ public class Slang {
                     break;
                 } while (true);
                 do {
-                    randomValues = values[generator.nextInt(values.length)];
+                    randomValues = this.slang.get(keys[generator.nextInt(keys.length)].toString());
                     if (QA.containsValue(randomValues.toString())) {
                         continue;
                     }
@@ -251,11 +259,7 @@ public class Slang {
                 QA.put(randomAnswer, randomValues.toString());
             }
 
-            int answerNumber = answer[generator.nextInt(answer.length)];
-
-            String answerKey = this.slang.get(QA.get(answerNumber));
-
-            System.out.println("Key: " + answerKey);
+            System.out.println("Key: " + resultKey);
             for (int i = 1; i <= 4; i++) {
                 System.out.println("Number: " + Integer.toString(i) + ", Value: " + QA.get(i));
             }
@@ -263,7 +267,7 @@ public class Slang {
             System.out.println("Chose Number Of Definition For Key: ");
             int result = Integer.parseInt(scan.nextLine());
 
-            if (result == answerNumber) {
+            if (result == firstAnswer) {
                 System.out.println("Congratulation, Your Choice Is Correct!!!");
             } else {
                 System.out.println("Opps, Your Choice Is Incorrect");
@@ -274,10 +278,10 @@ public class Slang {
             scan = new Scanner(System.in);
             String isPlay = scan.nextLine();
             if ("Y".equals(isPlay) || "y".equals(isPlay)) {
+                continue;
             } else {
                 break;
             }
-
         } while (true);
     }
 }
