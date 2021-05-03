@@ -128,7 +128,7 @@ public class Slang {
         Slang.this.bindkey.entrySet().stream().map(m -> m).forEachOrdered(itemResult -> {
             int number = itemResult.getKey();
             String key = itemResult.getValue();
-            System.out.println("Number: " + Integer.toString(number) + ", Key: '" + key);
+            System.out.println("Number: " + Integer.toString(number) + ", Key: '" + key + "'");
         });
         
         Scanner scan = new Scanner(System.in);
@@ -144,11 +144,11 @@ public class Slang {
         Slang.this.bindkey.entrySet().stream().map(m -> m).forEachOrdered(itemResult -> {
             int number = itemResult.getKey();
             String key = itemResult.getValue();
-            System.out.println("Number: " + Integer.toString(number) + ", Key: '" + key);
+            System.out.println("Number: " + Integer.toString(number) + ", Key: '" + key + "'");
         });
         
         Scanner scan = new Scanner(System.in);
-        System.out.println("input Number Of Key You Want To Edit: ");
+        System.out.println("input Number Of Key You Want To Delete: ");
         int number = Integer.parseInt(scan.nextLine());
         int confirm;
         scan = new Scanner(System.in);
